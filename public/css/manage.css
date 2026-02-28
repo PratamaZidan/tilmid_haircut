@@ -1,0 +1,750 @@
+/* 1. CSS VARIABLES */
+:root {
+    --maroon:           #8b0000;
+    --maroon-soft:      rgba(139, 0, 0, 0.08);
+    --maroon-faint:     rgba(139, 0, 0, 0.03);
+    --maroon-border:    rgba(139, 0, 0, 0.35);
+    --maroon-shadow:    10px 10px 0 #8b0000;
+
+    --bone:             #f4f1ea;
+    --ink:              #1b1b1b;
+    --ink-soft:         #2b2b2b;
+    --muted:            #6b6b6b;
+    --card:             #ffffff;
+    --line:             rgba(0, 0, 0, 0.12);
+    --line-dark:        rgba(0, 0, 0, 0.08);
+
+    --font-serif:       Georgia, serif;
+    --radius-pill:      999px;
+    --radius-card:      18px;
+    --radius-md:        14px;
+    --radius-sm:        12px;
+    --radius-xs:        10px;
+}
+
+/* 2. RESET & BASE */
+*,
+*::before,
+*::after {
+    box-sizing: border-box;
+}
+
+html {
+    scrollbar-gutter: stable;
+    scroll-behavior: smooth;
+}
+
+body {
+    margin: 0;
+    font-family: var(--font-serif);
+    background: var(--bone);
+    color: var(--ink);
+}
+
+a {
+    color: inherit;
+    text-decoration: none;
+}
+
+.wrap {
+    max-width: 1100px;
+    width: calc(100% - 36px);
+    margin: 0 auto;
+}
+
+/* 3. BARBER POLE ACCENT */
+.barber-pole {
+    height: 12px;
+    background: repeating-linear-gradient(
+        55deg,
+        var(--maroon)  0px,
+        var(--maroon)  20px,
+        #fff           20px,
+        #fff           40px
+    );
+}
+
+/* 4. TOPBAR / NAVIGATION */
+.topbar {
+    position: sticky;
+    top: 0;
+    z-index: 20;
+    background: var(--maroon);
+    border-bottom: 8px double #fff;
+    outline: 5px solid var(--maroon);
+}
+
+.topbar-inner {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 14px;
+    padding: 14px 0;
+}
+
+/* Brand */
+.brand {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    line-height: 1.05;
+    text-decoration: none;
+}
+
+.brand-text {
+    display: flex;
+    flex-direction: column;
+}
+
+.brand-logo {
+    width: 70px;
+    height: 70px;
+    object-fit: contain;
+    border-radius: 5px;
+    flex-shrink: 0;
+}
+
+.brand-title {
+    display: block;
+    color: #fff;
+    font-weight: 900;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    text-shadow: 1px 1px #000;
+}
+
+.brand-sub {
+    display: block;
+    color: #fff;
+    font-style: italic;
+    font-size: 0.85rem;
+}
+
+.top-actions {
+    display: flex;
+    gap: 10px;
+    flex-wrap: wrap;
+}
+
+/* 5. PAGE LAYOUT */
+.page {
+    padding: 26px 0 40px;
+}
+
+.page-head {
+    display: flex;
+    align-items: flex-end;
+    justify-content: space-between;
+    gap: 14px;
+    flex-wrap: wrap;
+    margin-bottom: 14px;
+}
+
+.h1 {
+    margin: 0;
+    text-transform: uppercase;
+    letter-spacing: 3px;
+    color: var(--maroon);
+}
+
+.h2 {
+    margin: 0 0 12px;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    color: var(--maroon);
+}
+
+.muted {
+    color: var(--muted);
+    line-height: 1.7;
+    margin: 8px 0 0;
+}
+
+/* Dashboard grid */
+.dash-grid {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+    gap: 14px;
+    align-items: start;
+}
+
+.dash-grid > .card {
+    min-width: 0;
+}
+
+.dash-grid--stack {
+    grid-template-columns: 1fr;
+}
+
+/* Helpers */
+.row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+    flex-wrap: wrap;
+}
+
+.check {
+    display: flex;
+    gap: 8px;
+    align-items: center;
+    color: var(--muted);
+}
+
+.link {
+    color: var(--maroon);
+    font-weight: 800;
+}
+
+.link:hover {
+    text-decoration: underline;
+}
+
+/* 6. CARDS */
+.card {
+    background: var(--card);
+    border: 1px solid var(--line);
+    border-radius: var(--radius-card);
+    padding: 16px;
+    box-shadow: 0 10px 24px rgba(0, 0, 0, 0.06);
+    height: 100%;
+}
+
+.card-accent {
+    border: 2px solid var(--maroon);
+    box-shadow: var(--maroon-shadow);
+}
+
+/* 7. BUTTONS */
+.btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 6px;
+    padding: 10px 14px;
+    border-radius: var(--radius-md);
+    border: 1px solid transparent;
+    font-weight: 800;
+    font-family: inherit;
+    letter-spacing: 0.8px;
+    text-transform: uppercase;
+    cursor: pointer;
+    transition: filter 0.2s, background 0.2s;
+}
+
+.btn-primary {
+    background: var(--maroon);
+    color: #fff;
+}
+
+.btn-primary:hover  { filter: brightness(0.92); }
+
+.btn-dark {
+    background: #fff;
+    color: var(--maroon);
+}
+
+.btn-dark:hover     { filter: brightness(0.92); }
+
+.btn-ghost {
+    background: transparent;
+    border-color: var(--maroon-border);
+    color: var(--maroon);
+}
+
+.btn-ghost:hover    { background: var(--maroon-soft); }
+
+.btn-mini {
+    padding: 7px 10px;
+    border-radius: var(--radius-sm);
+    border: 1px solid var(--line);
+    background: #fff;
+    text-transform: none;
+    letter-spacing: 0.2px;
+    font-weight: 800;
+}
+
+.btn-mini:hover     { background: rgba(0, 0, 0, 0.03); }
+
+.btn-danger {
+    border-color: var(--maroon-border);
+    color: var(--maroon);
+}
+
+.btn-danger:hover   { background: var(--maroon-soft); }
+
+.btn-excel {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 10px 12px;
+    border-radius: var(--radius-sm);
+    border: 1px solid rgba(255, 255, 255, 0.15);
+    background: #1f7a1f;
+    color: #fff;
+    font-weight: 900;
+    letter-spacing: 0.5px;
+    line-height: 1;
+    margin-left: auto;
+    cursor: pointer;
+    transition: filter 0.2s;
+}
+
+.btn-excel:hover { filter: brightness(0.80); }
+
+.btn-excel .material-symbols-outlined {
+    font-size: 20px;
+    line-height: 1;
+}
+
+/* 8. FORM & FIELDS */
+.form {
+    display: grid;
+    gap: 12px;
+    margin-top: 10px;
+}
+
+.field {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+}
+
+label {
+    font-weight: 800;
+}
+
+input,
+select {
+    padding: 12px;
+    border: 1px solid var(--line);
+    border-radius: var(--radius-md);
+    font-family: inherit;
+    font-size: 1rem;
+    width: 100%;
+    max-width: 100%;
+}
+
+.grid-2 {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 12px;
+    min-width: 0;
+}
+
+/* 9. TABLE */
+.table-wrap {
+    overflow: auto;
+    border-radius: var(--radius-md);
+    border: 1px solid var(--line);
+    max-width: 100%;
+}
+
+.table {
+    width: 100%;
+    border-collapse: separate;
+    border-spacing: 0;
+    min-width: 540px;
+    background: #fff;
+}
+
+.table th,
+.table td {
+    padding: 12px;
+    border-bottom: 1px solid var(--line-dark);
+    text-align: left;
+    vertical-align: middle;
+}
+
+.table th {
+    background: rgba(139, 0, 0, 0.04);
+    color: var(--ink-soft);
+    font-weight: 900;
+    letter-spacing: 0.6px;
+}
+
+.table tr:last-child td {
+    border-bottom: none;
+}
+
+.table td:nth-child(1) {
+    max-width: 120px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.actions {
+    display: flex;
+    justify-content: flex-end;
+    gap: 8px;
+}
+
+/* 10. PAGINATION */
+.pager {
+    margin-top: 12px;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    gap: 8px;
+}
+
+.pager-info {
+    color: var(--muted);
+    font-weight: 700;
+    font-size: 0.95rem;
+}
+
+.pagination.pagination-compact {
+    display: flex;
+    gap: 8px;
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    flex-wrap: wrap;
+}
+
+.pagination.pagination-compact .page-link {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 42px;
+    height: 42px;
+    padding: 0 12px;
+    border-radius: var(--radius-md);
+    border: 1px solid var(--line);
+    background: #fff;
+    color: var(--maroon);
+    font-weight: 900;
+    text-decoration: none;
+    transition: background 0.2s;
+}
+
+.pagination.pagination-compact .page-item.active .page-link {
+    background: var(--maroon);
+    color: #fff;
+    border-color: var(--maroon);
+}
+
+.pagination.pagination-compact .page-item.disabled .page-link {
+    opacity: 0.45;
+    pointer-events: none;
+}
+
+/* 11. TOOLBAR & SEARCH */
+.toolbar {
+    display: flex;
+    gap: 10px;
+    flex-wrap: wrap;
+    margin: 10px 0 12px;
+}
+
+.search {
+    flex: 2;
+    min-width: 200px;           /* override: was 800px — supaya tidak overflow di mobile */
+}
+
+.select {
+    flex: 1;
+    min-width: 180px;           /* override: was 256px */
+}
+
+.search-wrap {
+    position: relative;
+    flex: 1;
+}
+
+.search-wrap .search {
+    width: 100%;
+    padding-right: 44px;
+}
+
+.search-clear {
+    position: absolute;
+    right: 10px;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 32px;
+    height: 32px;
+    border-radius: var(--radius-xs);
+    border: 1px solid var(--line);
+    background: #fff;
+    cursor: pointer;
+    font-weight: 900;
+    line-height: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: background 0.2s;
+}
+
+.search-clear:hover { background: rgba(0, 0, 0, 0.04); }
+
+/* 12. BADGE */
+.badge {
+    display: inline-flex;
+    padding: 6px 10px;
+    border-radius: var(--radius-pill);
+    border: 1px solid var(--line);
+    background: rgba(0, 0, 0, 0.02);
+    font-weight: 900;
+    font-size: 0.85rem;
+}
+
+.badge-ok   { background: rgba(0, 128, 0, 0.08);    border-color: rgba(0, 128, 0, 0.25); }
+.badge-warn { background: rgba(255, 165, 0, 0.10);  border-color: rgba(255, 165, 0, 0.25); }
+
+/* 13. STATS */
+.stat-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 10px;
+    margin-top: 12px;
+}
+
+.stat {
+    border: 1px dashed var(--maroon-border);
+    border-radius: var(--radius-md);
+    padding: 12px;
+    background: var(--maroon-faint);
+}
+
+.stat-label { color: var(--muted); font-weight: 800; }
+
+.stat-value {
+    font-size: 1.2rem;
+    font-weight: 900;
+    margin-top: 6px;
+    color: var(--ink-soft);
+}
+
+/* History top bar */
+.history-top {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+    margin: 12px 0;
+    flex-wrap: wrap;
+}
+
+.history-top .stat {
+    flex: 1;
+    max-width: 520px;
+}
+
+/* 14. MODAL */
+.modal {
+    position: fixed;
+    inset: 0;
+    display: none;
+    z-index: 9999;
+    align-items: center;
+    justify-content: center;
+    padding: 24px 16px;
+}
+
+.modal.is-open { display: flex; }
+
+.modal__backdrop {
+    position: absolute;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.55);
+}
+
+.modal__panel {
+    position: relative;
+    width: min(720px, 92vw);
+    margin: 0;
+    background: var(--card);
+    border: 2px solid var(--maroon);
+    border-radius: var(--radius-card);
+    box-shadow: 14px 14px 0 var(--maroon), 0 30px 80px rgba(0, 0, 0, 0.35);
+    padding: 16px;
+    max-height: calc(100vh - 48px);
+    overflow: auto;
+    animation: modalIn 0.18s ease-out;
+}
+
+@keyframes modalIn {
+    from { transform: translateY(10px); opacity: 0.6; }
+    to   { transform: translateY(0);    opacity: 1;   }
+}
+
+.modal__head {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 12px;
+    padding-bottom: 12px;
+    border-bottom: 1px solid var(--line);
+    margin-bottom: 12px;
+}
+
+.modal__title {
+    font-weight: 900;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    color: var(--maroon);
+    font-size: 1.1rem;
+}
+
+.modal__sub {
+    color: var(--muted);
+    margin-top: 6px;
+    line-height: 1.5;
+}
+
+.modal__close {
+    flex-shrink: 0;
+    width: 42px;
+    height: 42px;
+    border-radius: var(--radius-pill);
+    border: 1px solid var(--line);
+    background: #fff;
+    cursor: pointer;
+    font-weight: 900;
+    transition: background 0.2s;
+}
+
+.modal__close:hover { background: rgba(0, 0, 0, 0.04); }
+
+.modal__actions {
+    display: flex;
+    justify-content: flex-end;
+    gap: 10px;
+    flex-wrap: wrap;
+    margin-top: 10px;
+}
+
+/* 15. PASSWORD TOGGLE */
+.password-wrap {
+    position: relative;
+    display: flex;
+    align-items: center;
+}
+
+.password-wrap input {
+    width: 100%;
+    padding-right: 52px;
+}
+
+.pw-toggle {
+    position: absolute;
+    right: 10px;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 38px;
+    height: 38px;
+    background: #fff;
+    border: none;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: background 0.2s;
+}
+
+.pw-toggle:hover { background: rgba(0, 0, 0, 0.04); }
+
+/* 16. MATERIAL ICONS */
+.material-symbols-outlined {
+    font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+    font-size: 22px;
+    line-height: 1;
+    display: block;
+}
+
+.pw-toggle .material-symbols-outlined {
+    font-size: 22px;
+    color: #333;
+}
+
+/* 17. HISTORY / EXCEL EXPORT */
+/* (already defined in #7 Buttons → .btn-excel and #13 Stats → .history-top) */
+
+/* 18. BOOKING DATE FILTER */
+.booking-filter {
+    display: flex;
+    gap: 10px;
+    flex-wrap: wrap;
+    align-items: center;
+}
+
+.booking-filter .search[type="date"] {
+    flex: 0 0 200px;
+    width: 200px;
+    min-width: 140px;
+    max-width: 100%;
+}
+
+/* 19. FOOTER */
+.footer {
+    border-top: 1px solid var(--line);
+    padding: 18px 0;
+    color: var(--muted);
+    text-align: center;
+}
+
+/* 20. RESPONSIVE — SEMUA @MEDIA QUERY DI SINI */
+/* --- Tablet: max 900px --- */
+@media (max-width: 900px) {
+    .dash-grid { grid-template-columns: 1fr; }
+    .stat-grid { grid-template-columns: 1fr 1fr; }
+    .history-top { flex-direction: column; align-items: flex-start; }
+    .history-top .stat { max-width: 100%; }
+    .btn-excel { margin-left: 0; }
+}
+
+/* --- Small tablet: max 700px --- */
+@media (max-width: 700px) {
+    .wrap { width: calc(100% - 24px); }
+    .grid-2 { grid-template-columns: 1fr; }
+    .toolbar { flex-direction: column; }
+    .search,
+    .select { min-width: 0; width: 100%; }
+    .search-wrap { width: 100%; }
+    .pager { align-items: flex-start; }
+    .page-head { flex-direction: column; align-items: flex-start; }
+    .top-actions { width: 100%; justify-content: flex-end; }
+    .modal__actions { justify-content: stretch; }
+    .modal__actions .btn { flex: 1; }
+    .booking-filter                      { flex-direction: column; align-items: stretch; }
+    .booking-filter .search[type="date"] { flex: 1 1 auto; width: 100%; min-width: 0; }
+    }
+
+/* --- Mobile: max 520px --- */
+@media (max-width: 520px) {
+    .wrap { width: calc(100% - 16px); }
+    .brand-logo { width: 52px; height: 52px; }
+    .brand-title { font-size: 0.9rem; letter-spacing: 2px; }
+    .brand-sub { font-size: 0.78rem; }
+    .topbar-inner { gap: 10px; }
+    .top-actions { gap: 6px; }
+    .top-actions .btn { padding: 8px 10px; font-size: 0.82rem; }
+    .h1 { font-size: 1.25rem; letter-spacing: 2px; }
+    .h2 { font-size: 1rem; }
+    .stat-grid { grid-template-columns: 1fr; }
+    .stat-value { font-size: 1.05rem; }
+    .table th,
+    .table td { padding: 9px 10px; font-size: 0.88rem; }
+    .pagination.pagination-compact .page-link {
+        min-width: 36px;
+        height: 36px;
+        font-size: 0.88rem;
+    }
+    .modal__panel { padding: 12px; box-shadow: 6px 6px 0 var(--maroon); }
+    .modal__title { font-size: 0.95rem; }
+    .modal__close { width: 36px; height: 36px; }
+    .booking-filter                      { flex-direction: column; align-items: stretch; }
+    .booking-filter .search[type="date"] { flex: 1 1 auto; width: 100%; min-width: 0; }
+        .card { padding: 12px; }
+    }
+
+/* --- Small mobile: max 360px --- */
+@media (max-width: 360px) {
+    .brand-logo { width: 40px; height: 40px; }
+    .brand-title { font-size: 0.8rem; letter-spacing: 1px; }
+    .btn { padding: 8px 10px; font-size: 0.8rem; }
+    .h1 { font-size: 1.05rem; }
+}
