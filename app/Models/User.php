@@ -48,4 +48,14 @@ class User extends Authenticatable
             'password' => 'hashed',
         ];
     }
+
+    public function bookings()
+    {
+        return $this->hasMany(\App\Models\Booking::class, 'capster_id');
+    }
+
+    public function schedules()
+    {
+        return $this->hasMany(\App\Models\CapsterSchedule::class, 'capster_id');
+    }
 }

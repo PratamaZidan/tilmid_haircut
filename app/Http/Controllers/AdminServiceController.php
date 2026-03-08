@@ -36,6 +36,7 @@ class AdminServiceController extends Controller
         $data = $r->validate([
             'code' => ['required','string','max:50','alpha_dash', 'unique:services,code'],
             'name' => ['required','string','max:120'],
+            'description' => ['nullable','string'],
             'price' => ['required','integer','min:0'],
             'category' => ['required', Rule::in(['haircut','treatment'])],
             'sort_order' => ['nullable','integer','min:0'],
@@ -46,6 +47,7 @@ class AdminServiceController extends Controller
         Service::create([
             'code' => $data['code'],
             'name' => $data['name'],
+            'description' => $data['description'] ?? null,
             'price' => $data['price'],
             'category' => $data['category'],
             'sort_order' => $data['sort_order'] ?? 0,
@@ -61,6 +63,7 @@ class AdminServiceController extends Controller
         $data = $r->validate([
             'code' => ['required','string','max:50','alpha_dash', Rule::unique('services','code')->ignore($service->id)],
             'name' => ['required','string','max:120'],
+            'description' => ['nullable','string'],
             'price' => ['required','integer','min:0'],
             'category' => ['required', Rule::in(['haircut','treatment'])],
             'sort_order' => ['nullable','integer','min:0'],
@@ -71,6 +74,7 @@ class AdminServiceController extends Controller
         $service->update([
             'code' => $data['code'],
             'name' => $data['name'],
+            'description' => $data['description'] ?? null,
             'price' => $data['price'],
             'category' => $data['category'],
             'sort_order' => $data['sort_order'] ?? 0,

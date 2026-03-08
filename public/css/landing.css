@@ -344,7 +344,7 @@ header.hero {
 
 /* 9. SECTION LAYOUT */
 section {
-    padding: 42px 0;
+    padding: 50px 0;
     scroll-margin-top: 130px;
 }
 
@@ -356,12 +356,23 @@ section {
     letter-spacing: 3px;
 }
 
-.section-sub {
+.hours-head {
     text-align: center;
-    max-width: 780px;
-    margin: 0 auto 26px;
+    margin-bottom: 20px;
+}
+
+#hours .section-sub {
+    text-align: center;
+    max-width: 680px;
+    margin: 0 auto 20px;
     color: var(--muted);
     line-height: 1.7;
+}
+
+.hours-badge {
+    display: flex;
+    justify-content: left;
+    margin-bottom: 16px;
 }
 
 /* 10. CARDS GRID */
@@ -601,6 +612,39 @@ iframe {
     border: 0;
     border-radius: var(--radius-card);
     box-shadow: 0 10px 24px rgba(0, 0, 0, 0.08);
+}
+
+.badge {
+    display: inline-block;
+    padding: 6px 12px;
+    border-radius: 999px;
+    font-size: 14px;
+    font-weight: 600;
+}
+
+.badge-ok {
+    background: #dcfce7;
+    color: #166534;
+}
+
+.badge-danger {
+    background: #fee2e2;
+    color: #991b1b;
+}
+
+.hours-row {
+    display: flex;
+    justify-content: space-between;
+    padding: 10px 0;
+    border-bottom: 1px solid var(--line);
+}
+
+.service-description{
+    margin-top: 4px;
+    margin-bottom: 8px;
+    font-size: 14px;
+    line-height: 1.5;
+    color: #666;
 }
 
 /* 15. FOOTER */

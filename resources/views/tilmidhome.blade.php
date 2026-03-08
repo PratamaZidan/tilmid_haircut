@@ -52,8 +52,9 @@
         </div>
 
         <p>
-          Tilmid Haircut hadir untuk kamu yang pengen potongan rapi dengan nuansa vintage.
-          Dari gaya reguler sampai premium, semuanya dikerjakan teliti—biar pede dari kursi sampai keluar pintu.
+          Tilmid haircut hadir dengan nuansa classic tapi rambut tatap asik.<br> 
+          Bantu kamu cari solusi mulai permasalahan hingga gaya rambut yang tepat. 
+          Melayani dengan teliti, bekerja dengan hati, agar kamu semakin dicintai.
         </p>
 
         <div class="hero-actions">
@@ -75,7 +76,7 @@
 
       <aside class="hero-mirror">
         <div class="mirror-pill">
-          <img src="/images/Hero.webp" alt="Suasana Tilmid Haircut">
+          <img src="/images/barber_shop_kaca.webp" alt="Suasana Tilmid Haircut">
         </div>
       </aside>
     </div>
@@ -199,19 +200,24 @@
             @foreach($services->where('category','haircut') as $s)
               <div class="price-row">
                 <div class="price-name">{{ $s->name }}</div>
+                @if(!empty($s->description))
+                    <p class="s-description">{{ $s->description }}</p>
+                @endif
                 <div class="price-amt">Rp {{ number_format($s->price,0,',','.') }}</div>
               </div>
             @endforeach
           </div>
 
-          <div class="price-divider"></div>
-
+          <br>
           <div class="price-group">
             <h3>Treatment +</h3>
 
             @foreach($services->where('category','treatment') as $s)
               <div class="price-row">
                 <div class="price-name">{{ $s->name }}</div>
+                @if(!empty($s->description))
+                    <p class="service-description">{{ $s->description }}</p>
+                @endif
                 <div class="price-amt">Rp {{ number_format($s->price,0,',','.') }}</div>
               </div>
             @endforeach
@@ -232,42 +238,63 @@
     <!-- Jam Buka -->
     <section id="hours">
       <div class="wrap">
-        <h2 class="section-title">Jam Operasional</h2>
-        <p class="section-sub">
-          Datang di jam operasional berikut untuk pengalaman potong rambut yang rapi dan nyaman. Booking dulu biar kursi siap.
-        </p>
+        <div class="card">
+          <div class="hours-head">
+            <h2 class="section-title">Jam Operasional</h2>
+            <p class="section-sub">
+              Datang di jam operasional berikut untuk pengalaman potong rambut yang rapi dan nyaman. Booking dulu biar kursi siap.
+            </p>
 
-        <div class="split">
-          <div class="card">
-            <h4>Jam Buka</h4>
-            <div class="list">
-              <div class="item"><b>Senin</b><span>15.00 – 22.00</span></div>
-              <div class="item"><b>Selasa</b><span>15.00 – 22.00</span></div>
-              <div class="item"><b>Rabu</b><span>15.00 – 22.00</span></div>
-              <div class="item"><b>Kamis</b><span>15.00 – 22.00</span></div>
-              <div class="item"><b>Jumat</b><span>15.00 – 22.00</span></div>
-              <div class="item"><b>Sabtu</b><span>15.00 – 22.00</span></div>
-              <div class="item"><b>Minggu</b><span>15.00 – 22.00</span></div>
+            <div class="hours-badge">
+              @if($isOpenNow)
+                <span class="badge badge-ok">Buka Sekarang</span>
+              @else
+                <span class="badge badge-danger">Tutup Sekarang</span>
+              @endif
             </div>
           </div>
 
-          <div class="card">
-            <h4>Siap Booking?</h4>
-            <p style="color:var(--muted); line-height:1.7; margin-top:6px;">
-              Klik tombol di bawah untuk langsung chat WhatsApp atau lanjut booking via form.
-            </p>
-            <div style="display:flex; gap:12px; flex-wrap:wrap; margin-top:14px;">
-              <a class="btn btn-primary" href="/booking">Booking</a>
-              <a class="btn btn-dark"
-                 href="https://wa.me/6285185111157?text=Halo%20Tilmid%20Haircut,%20saya%20mau%20booking."
-                 target="_blank" rel="noopener">
-                WhatsApp
-              </a>
-            </div>
+          @php
+            $days = [
+              0 => 'Minggu',
+              1 => 'Senin',
+              2 => 'Selasa',
+              3 => 'Rabu',
+              4 => 'Kamis',
+              5 => 'Jumat',
+              6 => 'Sabtu',
+            ];
+          @endphp
 
-            <div style="margin-top:18px; border-top:1px solid var(--line); padding-top:14px; color:var(--muted); font-size:.95rem;">
-              <b style="color:var(--ink);">Catatan:</b> Datang 5–10 menit sebelum jam booking biar enak atur antrean.
-            </div>
+          <div class="hours-list">
+            @foreach($weeklyHours as $hour)
+              <div class="hours-row">
+                <span>{{ $days[$hour->day_of_week] }}</span>
+                <span>
+                  {{ $hour->is_open ? \Carbon\Carbon::parse($hour->open_time)->format('H:i') . ' - ' . \Carbon\Carbon::parse($hour->close_time)->format('H:i') : 'Tutup' }}
+                </span>
+              </div>
+            @endforeach
+          </div>
+
+          <br>
+
+          <h4>Siap Booking?</h4>
+          <p style="color:var(--muted); line-height:1.7; margin-top:6px;">
+            Klik tombol di bawah untuk langsung chat WhatsApp atau lanjut booking via form.
+          </p>
+
+          <div style="display:flex; gap:12px; flex-wrap:wrap; margin-top:14px;">
+            <a class="btn btn-primary" href="/booking">Booking</a>
+            <a class="btn btn-dark"
+              href="https://wa.me/6285185111157?text=Halo%20Tilmid%20Haircut,%20saya%20mau%20booking."
+              target="_blank" rel="noopener">
+              WhatsApp
+            </a>
+          </div>
+
+          <div style="margin-top:18px; border-top:1px solid var(--line); padding-top:14px; color:var(--muted); font-size:.95rem;">
+            <b style="color:var(--ink);">Catatan:</b> Datang 5–10 menit sebelum jam booking biar enak atur antrean.
           </div>
         </div>
       </div>

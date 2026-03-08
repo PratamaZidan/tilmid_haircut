@@ -20,5 +20,6 @@ class DatabaseSeeder extends Seeder
 
         $this->call([InitialUsersSeeder::class,]);
         $this->call([ServicesSeeder::class,]);
+        $this->call([BusinessHourSeeder::class,]);
     }
 }

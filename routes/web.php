@@ -8,25 +8,32 @@ use App\Http\Controllers\AdminController;
 use App\Http\Controllers\AdminServiceController;
 use App\Http\Controllers\CapsterController;
 use App\Http\Controllers\CapsterProfileController;
+use App\Http\Controllers\HomeController;
+use App\Http\Controllers\AdminBusinessHourController;
+use App\Http\Controllers\CapsterScheduleController;
 
-Route::get('/', function () {
-    $services = Service::where('is_active', true)
-        ->where('is_public', true)
-        ->orderBy('category')
-        ->orderBy('sort_order')
-        ->get(['code','name','price','category']);
+// Route::get('/', function () {
+//     $services = Service::where('is_active', true)
+//         ->where('is_public', true)
+//         ->orderBy('category')
+//         ->orderBy('sort_order')
+//         ->get(['code','name','price','category']);
 
-    return view('tilmidhome', compact('services'));
-});
+//     return view('tilmidhome', compact('services'));
+// });
+
+Route::get('/', [HomeController::class, 'index']);
 
 Route::get('/login', [AuthController::class, 'show'])->name('login');
 Route::post('/login', [AuthController::class, 'login']);
 Route::post('/logout', [AuthController::class, 'logout']);
 
-Route::get('/booking', fn() => view('booking'));
+// Route::get('/booking', fn() => view('booking'));
 Route::get('/booking', [BookingController::class, 'create']);
 Route::get('/booking/success/{code}', [BookingController::class, 'success']);
 Route::post('/booking', [BookingController::class, 'store']);
+Route::get('/booking/availability', [BookingController::class, 'availability']);
+Route::get('/booking/disabled-dates', [BookingController::class, 'disabledDates']);
 
 Route::middleware(['auth','role:admin'])->group(function () {
     Route::get('/admin', [AdminController::class, 'dashboard']);
@@ -35,6 +42,8 @@ Route::middleware(['auth','role:admin'])->group(function () {
     Route::put('/admin/price/{service}', [AdminServiceController::class, 'update']);
     Route::delete('/admin/price/{service}', [AdminServiceController::class, 'destroy']);
     Route::post('/admin/price/{service}/toggle', [AdminServiceController::class, 'toggleActive']); // optional
+    Route::get('/admin/business-hours', [AdminBusinessHourController::class, 'index']);
+    Route::post('/admin/business-hours', [AdminBusinessHourController::class, 'update']);
 
     // Capster
     Route::post('/admin/capsters', [AdminController::class, 'storeCapster']);
@@ -60,4 +69,6 @@ Route::middleware(['auth','role:capster'])->group(function () {
     Route::post('/capster/profile/password', [CapsterProfileController::class, 'updatePassword']);
     Route::get('/capster/notify', [\App\Http\Controllers\CapsterController::class, 'notify'])
         ->middleware(['auth','role:capster']);
+    Route::get('/capster/schedule', [CapsterScheduleController::class, 'edit']);
+    Route::post('/capster/schedule', [CapsterScheduleController::class, 'update']);
 });

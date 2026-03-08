@@ -151,8 +151,8 @@
           <div class="stat-value">Rp {{ number_format($expenseMonth,0,',','.') }}</div>
         </div>
         <div class="stat">
-          <div class="stat-label">Saldo</div>
-          <div class="stat-value">Rp {{ number_format($saldoMonth,0,',','.') }}</div>
+          <div class="stat-label">Saldo total</div>
+          <div class="stat-value">Rp {{ number_format($totalBalance,0,',','.') }}</div>
         </div>
       </div>
 

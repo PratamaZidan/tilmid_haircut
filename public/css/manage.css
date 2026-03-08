@@ -343,7 +343,7 @@ select {
 
 .table {
     width: 100%;
-    border-collapse: separate;
+    border-collapse: collapse;
     border-spacing: 0;
     min-width: 540px;
     background: #fff;
@@ -354,7 +354,7 @@ select {
     padding: 12px;
     border-bottom: 1px solid var(--line-dark);
     text-align: left;
-    vertical-align: middle;
+    vertical-align: top;
 }
 
 .table th {
@@ -374,10 +374,17 @@ select {
     text-overflow: ellipsis;
 }
 
-.actions {
+.table td.actions {
+    vertical-align: top;
+    text-align: right;
+    white-space: nowrap;
+}
+
+.actions-wrap {
     display: flex;
     justify-content: flex-end;
     gap: 8px;
+    flex-wrap: wrap;
 }
 
 /* 10. PAGINATION */
@@ -686,7 +693,29 @@ select {
     text-align: center;
 }
 
-/* 20. RESPONSIVE — SEMUA @MEDIA QUERY DI SINI */
+/* 20. Jam operasional */
+.switch-inline {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    font-weight: 800;
+    color: var(--ink-soft);
+}
+
+.switch-inline input[type="checkbox"] {
+    width: 18px;
+    height: 18px;
+    margin: 0;
+    accent-color: var(--maroon);
+}
+
+.head-actions {
+    display: flex;
+    gap: 10px;
+    flex-wrap: wrap;
+}
+
+/* 21. RESPONSIVE — SEMUA @MEDIA QUERY DI SINI */
 /* --- Tablet: max 900px --- */
 @media (max-width: 900px) {
     .dash-grid { grid-template-columns: 1fr; }

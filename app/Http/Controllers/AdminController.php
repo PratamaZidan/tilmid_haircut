@@ -175,27 +175,45 @@ class AdminController extends Controller
         $endMonth = now()->endOfMonth()->toDateString();
 
         $bookingIncomeMonth = Booking::query()
-            ->where('status','done')
+            ->where('status', 'done')
             ->whereBetween('booking_date', [$startMonth, $endMonth])
             ->withSum('addons as addons_sum', 'amount')
             ->get()
-            ->sum(fn($b) => (int)$b->service_price + (int)($b->addons_sum ?? 0));
+            ->sum(fn($b) => (int) $b->service_price + (int) ($b->addons_sum ?? 0));
 
-        $manualIncomeMonth = FinanceTransaction::where('type','masuk')
-            ->whereBetween('date', [$startMonth,$endMonth])
+        $manualIncomeMonth = FinanceTransaction::query()
+            ->where('type', 'masuk')
+            ->whereBetween('date', [$startMonth, $endMonth])
             ->sum('amount');
 
-        $expenseMonth = FinanceTransaction::where('type','keluar')
-            ->whereBetween('date', [$startMonth,$endMonth])
+        $expenseMonth = FinanceTransaction::query()
+            ->where('type', 'keluar')
+            ->whereBetween('date', [$startMonth, $endMonth])
             ->sum('amount');
 
-        $incomeMonth = (int)$bookingIncomeMonth + (int)$manualIncomeMonth;
-        $saldoMonth = (int)$incomeMonth - (int)$expenseMonth;
+        $incomeMonth = (int) $bookingIncomeMonth + (int) $manualIncomeMonth;
+
+        // ===== Saldo total semua histori =====
+        $bookingIncomeTotalAll = Booking::query()
+            ->where('status', 'done')
+            ->withSum('addons as addons_sum', 'amount')
+            ->get()
+            ->sum(fn($b) => (int) $b->service_price + (int) ($b->addons_sum ?? 0));
+
+        $manualIncomeTotalAll = FinanceTransaction::query()
+            ->where('type', 'masuk')
+            ->sum('amount');
+
+        $expenseTotalAll = FinanceTransaction::query()
+            ->where('type', 'keluar')
+            ->sum('amount');
+
+        $totalBalance = ((int) $bookingIncomeTotalAll + (int) $manualIncomeTotalAll) - (int) $expenseTotalAll;
 
         return view('admin.dashboard', compact(
-            'capsters','capsterQ','capsterStatus',
-            'financeQ','financeRange', 'perPage',
-            'incomeMonth','expenseMonth','saldoMonth',
+            'capsters', 'capsterQ', 'capsterStatus',
+            'financeQ', 'financeRange', 'perPage',
+            'incomeMonth', 'expenseMonth', 'totalBalance',
             'ledgerPage'
         ));
     }

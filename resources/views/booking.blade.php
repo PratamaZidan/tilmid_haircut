@@ -4,7 +4,9 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="/css/booking.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
     <script src="/js/booking-form.js" defer></script>
+    <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
     <title>Tilmid Haircut | Booking</title>
 </head>
 <body>
@@ -33,47 +35,64 @@
             </div>
 
             <!-- pilih layanan -->
-            <select name="layanan" required>
-                <option value="" selected disabled hidden>Pilih Layanan</option>
+            <div class="form-group">
+                <label>Pilih Layanan</label>
+                <select name="layanan" required>
+                    <option value="" selected disabled hidden>Pilih Layanan</option>
 
-                <optgroup label="Haircut +">
-                    @foreach ($services->where('category','haircut') as $s)
-                    <option value="{{ $s->code }}" {{ old('layanan')==$s->code?'selected':'' }}>
-                        {{ $s->name }} - Rp {{ number_format($s->price,0,',','.') }}
-                    </option>
+                    <optgroup label="Haircut +">
+                        @foreach ($services->where('category','haircut') as $s)
+                        <option value="{{ $s->code }}" {{ old('layanan')==$s->code?'selected':'' }}>
+                            {{ $s->name }} - Rp {{ number_format($s->price,0,',','.') }}
+                            {{ !empty($s->description) ? "({$s->description})" : "" }}
+                        </option>
+                        @endforeach
+                    </optgroup>
+
+                    <optgroup label="Treatment +">
+                        @foreach ($services->where('category','treatment') as $s)
+                        <option value="{{ $s->code }}" {{ old('layanan')==$s->code?'selected':'' }}>
+                            {{ $s->name }} - Rp {{ number_format($s->price,0,',','.') }}
+                            {{ !empty($s->description) ? "({$s->description})" : "" }}
+                        </option>
+                        @endforeach
+                    </optgroup>
+                </select>
+            </div>
+
+            <!-- pilih capster -->
+            <div class="form-group">
+                <label>Pilih Capster</label>
+                <select name="capster" id="capsterSelect" required>
+                    <option value="" selected disabled hidden>Pilih Capster</option>
+                    @foreach ($capsters as $c)
+                        <option value="{{ $c->id }}" {{ old('capster') == $c->id ? 'selected' : '' }}>
+                            {{ $c->name }}
+                        </option>
                     @endforeach
-                </optgroup>
+                </select>
+            </div>
 
-                <optgroup label="Treatment +">
-                    @foreach ($services->where('category','treatment') as $s)
-                    <option value="{{ $s->code }}" {{ old('layanan')==$s->code?'selected':'' }}>
-                        {{ $s->name }} - Rp {{ number_format($s->price,0,',','.') }}
-                    </option>
-                    @endforeach
-                </optgroup>
-            </select>
-
-            <!-- tanggal, jam, capster -->
+            <!-- tanggal booking -->
             <div class="form-group">
                 <label>Tanggal Booking</label>
-                <input type="date" name="tanggal" required>
+                <input
+                    type="date"
+                    name="tanggal"
+                    id="tanggalBooking"
+                    placeholder="Pilih tanggal booking"
+                    autocomplete="off"
+                    required
+                >
             </div>
 
             <!-- jam booking -->
             <div class="form-group">
-                <label>Jam Kedatangan</label>
-                <input type="time" name="jam" required>
+                <label>Jam Booking</label>
+                <input type="hidden" name="jam" id="jamBooking" required>
+                <div id="slotContainer" class="slot-grid"></div>
+                <small id="slotMessage">Pilih capster dan tanggal terlebih dahulu.</small>
             </div>
-
-            <!-- pilih capster -->
-            <select name="capster" required>
-                <option value="" selected disabled hidden>Pilih Capster</option>
-                @foreach ($capsters as $c)
-                    <option value="{{ $c->id }}" {{ old('capster') == $c->id ? 'selected' : '' }}>
-                    {{ $c->name }}
-                    </option>
-                @endforeach
-            </select>
 
             <button type="submit">Konfirmasi Jadwal Sekarang</button>
         </form>
@@ -82,5 +101,10 @@
     <footer>
         &copy; 2026 Tilmid Haircut - Est. 2024. All Rights Reserved.
     </footer>
+
+    <script>
+        window.bookingAvailabilityUrl = "{{ url('/booking/availability') }}";
+        window.bookingDisabledDatesUrl = "{{ url('/booking/disabled-dates') }}";
+    </script>
 </body>
 </html>

@@ -34,11 +34,13 @@
         @if (str_starts_with($path, 'capster'))
           <a class="btn btn-dark" href="/capster">Dashboard</a>
           <a class="btn btn-dark" href="/capster/profile">Profile</a>
+          <a class="btn btn-dark" href="/capster/schedule">Jadwal Kerja</a>
         @endif
 
         @if (str_starts_with($path, 'admin'))
           <a class="btn btn-dark" href="/admin">Dashboard</a>
           <a class="btn btn-dark" href="/admin/price">Price</a>
+          <a class="btn btn-dark" href="/admin/business-hours">Jam Operasional</a>
         @endif
 
         {{-- di halaman login: tampilkan tombol kembali --}}

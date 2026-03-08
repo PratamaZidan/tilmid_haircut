@@ -49,7 +49,14 @@
             <tbody>
             @forelse($services as $s)
                 <tr>
-                <td>{{ $s->name }}</td>
+                <td>
+                    <div>{{ $s->name }}</div>
+                    @if(!empty($s->description))
+                        <div class="muted" style="margin-top:4px; font-size:.92rem; line-height:1.45;">
+                            {{ $s->description }}
+                        </div>
+                    @endif
+                </td>
                 <td><span class="badge">{{ $s->code }}</span></td>
                 <td>{{ ucfirst($s->category) }}</td>
                 <td style="text-align:right;">Rp {{ number_format($s->price,0,',','.') }}</td>
@@ -73,6 +80,7 @@
                     data-id="{{ $s->id }}"
                     data-code="{{ $s->code }}"
                     data-name="{{ e($s->name) }}"
+                    data-description="{{ e($s->description) }}"
                     data-price="{{ $s->price }}"
                     data-category="{{ $s->category }}"
                     data-sort="{{ $s->sort_order }}"
@@ -129,6 +137,15 @@
             <label>Code (unik)</label>
             <input type="text" name="code" placeholder="contoh: premium" required>
             <div class="muted" style="margin-top:6px;font-size:.92rem;">Huruf/angka/strip/underscore (alpha_dash).</div>
+            </div>
+
+            <div class="field">
+                <label>Deskripsi (Opsional)</label>
+                <input
+                    name="description"
+                    rows="3"
+                    placeholder="Contoh: Cukur rambut basic, termasuk styling ringan."
+                >{{ old('description') }}</input>
             </div>
         </div>
 
@@ -206,6 +223,16 @@
             <div class="field">
             <label>Code</label>
             <input type="text" id="editServiceCode" name="code" required>
+            </div>
+
+            <div class="field">
+                <label>Deskripsi (Opsional)</label>
+                <input
+                    id="editServiceDescription"
+                    name="description"
+                    rows="3"
+                    placeholder="Contoh: Cukur rambut basic, termasuk styling ringan."
+                ></input>
             </div>
         </div>
 

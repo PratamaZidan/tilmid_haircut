@@ -4,61 +4,65 @@ namespace App\Http\Controllers;
 
 use App\Models\Booking;
 use App\Models\User;
+use App\Models\Service;
+use App\Services\BookingAvailabilityService;
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
-use App\Models\Service;
 
 class BookingController extends Controller
 {
     public function create()
     {
-        $capsters = User::where('role','capster')->where('status','aktif')->orderBy('name')->get(['id','name']);
+        $capsters = User::where('role', 'capster')
+            ->where('status', 'aktif') // ganti ke is_active kalau project-mu pakai boolean
+            ->orderBy('name')
+            ->get(['id', 'name']);
 
         $services = Service::where('is_active', true)
             ->where('is_public', true)
             ->orderBy('category')
             ->orderBy('sort_order')
-            ->get(['code','name','price','category']);
+            ->get(['code', 'name', 'price', 'category']);
 
-        return view('booking', compact('capsters','services'));
+        return view('booking', compact('capsters', 'services'));
     }
 
-    public function store(Request $r)
+    public function store(Request $request)
     {
-        $data = $r->validate([
+        $data = $request->validate([
             'nama' => 'required|string|max:100',
             'whatsapp' => 'required|string|max:30',
             'layanan' => 'required|string',
             'tanggal' => 'required|date',
-            'jam' => 'required',
+            'jam' => 'required|date_format:H:i',
             'capster' => 'required|exists:users,id',
         ]);
 
-        $capster = User::where('id', $data['capster'])->where('role','capster')->firstOrFail();
+        $capster = User::where('id', $data['capster'])
+            ->where('role', 'capster')
+            ->firstOrFail();
 
         $service = Service::where('code', $data['layanan'])
             ->where('is_active', true)
             ->where('is_public', true)
             ->firstOrFail();
 
-        // kode booking unik (mis. TLM-8F3K2A)
-        $code = 'TLM-' . strtoupper(Str::random(6));
+        $availability = app(BookingAvailabilityService::class)
+            ->getAvailableSlots($data['tanggal'], (int) $capster->id);
 
-        // (opsional) cek bentrok jadwal capster
-        $conflict = Booking::where('capster_id', $capster->id)
-            ->where('booking_date', $data['tanggal'])
-            ->where('booking_time', $data['jam'])
-            ->whereIn('status', ['pending','confirmed'])
-            ->exists();
-        if ($conflict) {
-            return back()->withErrors(['jam' => 'Slot waktu sudah terisi, pilih jam lain.'])->withInput();
+        if (!in_array($data['jam'], $availability['available_slots'], true)) {
+            return back()
+                ->withErrors(['jam' => 'Slot tidak tersedia. Silakan pilih slot lain.'])
+                ->withInput();
         }
+
+        $code = 'TLM-' . strtoupper(Str::random(6));
 
         $booking = Booking::create([
             'code' => $code,
             'customer_name' => $data['nama'],
             'customer_whatsapp' => $data['whatsapp'],
-            'service_code'  => $service->code,
+            'service_code' => $service->code,
             'service_label' => $service->name,
             'service_price' => $service->price,
             'booking_date' => $data['tanggal'],
@@ -70,9 +74,37 @@ class BookingController extends Controller
         return redirect("/booking/success/{$booking->code}");
     }
 
+    public function availability(Request $request, BookingAvailabilityService $service)
+    {
+        $data = $request->validate([
+            'date' => 'required|date',
+            'capster_id' => 'required|exists:users,id',
+        ]);
+
+        return response()->json(
+            $service->getAvailableSlots($data['date'], (int) $data['capster_id'])
+        );
+    }
+
+    public function disabledDates(Request $request, BookingAvailabilityService $service)
+    {
+        $data = $request->validate([
+            'month' => 'required|date_format:Y-m',
+            'capster_id' => 'required|exists:users,id',
+        ]);
+
+        return response()->json([
+            'month' => $data['month'],
+            'disabled_dates' => $service->getFullyBookedDates((int) $data['capster_id'], $data['month']),
+        ]);
+    }
+
     public function success(string $code)
     {
-        $booking = Booking::with('capster')->where('code', $code)->firstOrFail();
+        $booking = Booking::with('capster')
+            ->where('code', $code)
+            ->firstOrFail();
+
         return view('booking-success', compact('booking'));
     }
 }
