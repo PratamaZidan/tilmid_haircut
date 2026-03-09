@@ -1,3 +1,9 @@
+# ============================================
+# NIXPACKS CONFIG
+# Laravel + Vite + MySQL on Coolify
+# Menggunakan php-fpm + nginx (bukan artisan serve)
+# ============================================
+
 [phases.setup]
 nixPkgs = [
     "php82",
@@ -14,7 +20,8 @@ nixPkgs = [
     "php82Extensions.fileinfo",
     "php82Extensions.openssl",
     "nodejs_20",
-    "nodePackages.npm"
+    "nodePackages.npm",
+    "nginx"
 ]
 
 [phases.install]
@@ -32,4 +39,4 @@ cmds = [
 ]
 
 [start]
-cmd = "php artisan migrate --force --isolated && php artisan storage:link --force && php-fpm"
+cmd = "php artisan migrate --force --isolated && php artisan storage:link --force && php-fpm82 -D && nginx -g 'daemon off;'"
