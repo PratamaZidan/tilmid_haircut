@@ -22,7 +22,7 @@ class BookingController extends Controller
             ->where('is_public', true)
             ->orderBy('category')
             ->orderBy('sort_order')
-            ->get(['code', 'name', 'price', 'category']);
+            ->get(['code', 'name', 'description' ,'price', 'category']);
 
         return view('booking', compact('capsters', 'services'));
     }

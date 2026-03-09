@@ -76,7 +76,7 @@
 
       <aside class="hero-mirror">
         <div class="mirror-pill">
-          <img src="/images/barber_shop_kaca.webp" alt="Suasana Tilmid Haircut">
+          <img src="/images/foto_cermin.webp" alt="Suasana Tilmid Haircut">
         </div>
       </aside>
     </div>
@@ -199,11 +199,14 @@
 
             @foreach($services->where('category','haircut') as $s)
               <div class="price-row">
-                <div class="price-name">{{ $s->name }}</div>
-                @if(!empty($s->description))
-                    <p class="s-description">{{ $s->description }}</p>
-                @endif
-                <div class="price-amt">Rp {{ number_format($s->price,0,',','.') }}</div>
+                  <div class="price-info">
+                      <div class="price-name">{{ $s->name }}</div>
+                      @if(!empty($s->description))
+                          <p class="service-description">{{ $s->description }}</p>
+                      @endif
+                  </div>
+
+                  <div class="price-amt">Rp {{ number_format($s->price,0,',','.') }}</div>
               </div>
             @endforeach
           </div>
