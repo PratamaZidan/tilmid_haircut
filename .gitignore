@@ -39,5 +39,3 @@ Thumbs.db
 /.zed
 Homestead.json
 Homestead.yaml
-Dockerfile
-docker-compose.override.yml
