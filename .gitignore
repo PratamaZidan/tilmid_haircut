@@ -39,3 +39,5 @@ Thumbs.db
 /.zed
 Homestead.json
 Homestead.yaml
+.nixpacks/
+.nixpacks
