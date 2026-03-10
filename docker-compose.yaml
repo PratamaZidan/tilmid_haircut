@@ -27,7 +27,7 @@ services:
       CACHE_STORE: redis
       QUEUE_CONNECTION: "${QUEUE_CONNECTION:-database}"
 
-      REDIS_HOST: redis
+      REDIS_HOST: app_redis
       REDIS_PASSWORD: ""
       REDIS_PORT: 6379
 
@@ -42,13 +42,13 @@ services:
       - storage_data:/var/www/html/storage/app/public
       - logs_data:/var/www/html/storage/logs
     depends_on:
-      redis:
+      app_redis:
         condition: service_healthy
     networks:
       - app_network
       - coolify
 
-  redis:
+  app_redis:
     image: redis:7-alpine
     restart: unless-stopped
     command: >
