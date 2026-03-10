@@ -3,13 +3,13 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <link rel="stylesheet" href="{{ asset('css/manage.css') }}">
-  <script src="{{ asset('js/income-modal.js') }}" defer></script>
-  <script src="{{ asset('js/addon-booking.js') }}" defer></script>
-  <script src="{{ asset('js/admin-modals.js') }}" defer></script>
-  <script src="{{ asset('js/admin-edit.js') }}" defer></script>
-  <script src="{{ asset('js/password-toogle.js') }}" defer></script>
-  <script src="{{ asset('js/search-clear.js') }}" defer></script>
+  <link rel="stylesheet" href="{{ secure_asset('css/manage.css') }}">
+  <script src="{{ secure_asset('js/income-modal.js') }}" defer></script>
+  <script src="{{ secure_asset('js/addon-booking.js') }}" defer></script>
+  <script src="{{ secure_asset('js/admin-modals.js') }}" defer></script>
+  <script src="{{ secure_asset('js/admin-edit.js') }}" defer></script>
+  <script src="{{ secure_asset('js/password-toogle.js') }}" defer></script>
+  <script src="{{ secure_asset('js/search-clear.js') }}" defer></script>
   <script src="/js/capster-notify.js" defer></script>
   <link rel="stylesheet"
   href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,400,0,0" />

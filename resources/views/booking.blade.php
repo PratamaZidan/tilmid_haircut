@@ -103,8 +103,8 @@
     </footer>
 
     <script>
-        window.bookingAvailabilityUrl = "{{ url('/booking/availability') }}";
-        window.bookingDisabledDatesUrl = "{{ url('/booking/disabled-dates') }}";
+        window.bookingAvailabilityUrl = "{{ secure_url('/booking/availability') }}";
+        window.bookingDisabledDatesUrl = "{{ secure_url('/booking/disabled-dates') }}";
     </script>
 </body>
 </html>

@@ -19,7 +19,7 @@ class DatabaseSeeder extends Seeder
         // User::factory()->create([...]);
 
         $this->call([InitialUsersSeeder::class,]);
-        $this->call([ServicesSeeder::class,]);
-        $this->call([BusinessHourSeeder::class,]);
+        // $this->call([ServicesSeeder::class,]);
+        // $this->call([BusinessHourSeeder::class,]);
     }
 }
