@@ -17,7 +17,10 @@ RUN apk add --no-cache \
     libxml2-dev \
     oniguruma-dev \
     icu-dev \
-    redis
+    redis \
+    autoconf \
+    g++ \
+    make
 
 # Install PHP extensions
 RUN docker-php-ext-configure gd --with-freetype --with-jpeg \
@@ -34,7 +37,9 @@ RUN docker-php-ext-configure gd --with-freetype --with-jpeg \
         opcache
 
 # Install phpredis extension
-RUN pecl install redis && docker-php-ext-enable redis
+RUN pecl install redis \
+    && docker-php-ext-enable redis \
+    && apk del autoconf g++ make
 
 # Install Composer
 COPY --from=composer:2 /usr/bin/composer /usr/bin/composer
