@@ -46,6 +46,7 @@ services:
         condition: service_healthy
     networks:
       - app_network
+      - coolify
 
   redis:
     image: redis:7-alpine
@@ -73,3 +74,5 @@ volumes:
 networks:
   app_network:
     driver: bridge
+  coolify:
+    external: true
