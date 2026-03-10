@@ -21,15 +21,11 @@ services:
       DB_USERNAME: "${DB_USERNAME}"
       DB_PASSWORD: "${DB_PASSWORD}"
 
-      SESSION_DRIVER: redis
+      SESSION_DRIVER: database
       SESSION_LIFETIME: "${SESSION_LIFETIME:-120}"
 
-      CACHE_STORE: redis
-      QUEUE_CONNECTION: "${QUEUE_CONNECTION:-database}"
-
-      REDIS_HOST: app_redis
-      REDIS_PASSWORD: ""
-      REDIS_PORT: 6379
+      CACHE_STORE: database
+      QUEUE_CONNECTION: database
 
       MAIL_MAILER: "${MAIL_MAILER:-log}"
       MAIL_HOST: "${MAIL_HOST}"
@@ -41,37 +37,13 @@ services:
     volumes:
       - storage_data:/var/www/html/storage/app/public
       - logs_data:/var/www/html/storage/logs
-    depends_on:
-      app_redis:
-        condition: service_healthy
     networks:
-      - app_network
       - coolify
-
-  app_redis:
-    image: redis:7-alpine
-    restart: unless-stopped
-    command: >
-      redis-server
-      --maxmemory 128mb
-      --maxmemory-policy allkeys-lru
-    volumes:
-      - redis_data:/data
-    healthcheck:
-      test: ["CMD", "redis-cli", "ping"]
-      interval: 10s
-      timeout: 5s
-      retries: 3
-    networks:
-      - app_network
 
 volumes:
   storage_data:
   logs_data:
-  redis_data:
 
 networks:
-  app_network:
-    driver: bridge
   coolify:
     external: true

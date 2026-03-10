@@ -1,6 +1,6 @@
 FROM php:8.2-fpm-alpine
 
-# Install system dependencies
+# Install system dependencies + build deps
 RUN apk add --no-cache \
     nginx \
     supervisor \
@@ -17,14 +17,11 @@ RUN apk add --no-cache \
     libxml2-dev \
     oniguruma-dev \
     icu-dev \
-    redis \
     autoconf \
     g++ \
-    make
-
-# Install PHP extensions
-RUN docker-php-ext-configure gd --with-freetype --with-jpeg \
-    && docker-php-ext-install \
+    make \
+    && docker-php-ext-configure gd --with-freetype --with-jpeg \
+    && docker-php-ext-install -j$(nproc) \
         pdo_mysql \
         mbstring \
         exif \
@@ -34,12 +31,11 @@ RUN docker-php-ext-configure gd --with-freetype --with-jpeg \
         zip \
         xml \
         intl \
-        opcache
-
-# Install phpredis extension
-RUN pecl install redis \
+        opcache \
+    && pecl install redis \
     && docker-php-ext-enable redis \
-    && apk del autoconf g++ make
+    && apk del autoconf g++ make \
+    && rm -rf /tmp/pear
 
 # Install Composer
 COPY --from=composer:2 /usr/bin/composer /usr/bin/composer
@@ -74,12 +70,14 @@ RUN chown -R www-data:www-data /var/www/html \
     && chmod -R 755 /var/www/html/storage \
     && chmod -R 755 /var/www/html/bootstrap/cache
 
-# Copy config files - remove ALL default nginx configs first
+# Remove default nginx configs and copy ours
 RUN rm -rf /etc/nginx/http.d/* /etc/nginx/conf.d/*
 COPY docker/nginx.conf /etc/nginx/nginx.conf
 COPY docker/supervisord.conf /etc/supervisor/conf.d/supervisord.conf
 COPY docker/php.ini /usr/local/etc/php/conf.d/custom.ini
+COPY docker/entrypoint.sh /entrypoint.sh
+RUN chmod +x /entrypoint.sh
 
 EXPOSE 80
 
-CMD ["/usr/bin/supervisord", "-c", "/etc/supervisor/conf.d/supervisord.conf"]
+CMD ["/entrypoint.sh"]
