@@ -41,8 +41,6 @@ services:
     volumes:
       - storage_data:/var/www/html/storage/app/public
       - logs_data:/var/www/html/storage/logs
-    ports:
-      - "8080:80"
     depends_on:
       redis:
         condition: service_healthy
