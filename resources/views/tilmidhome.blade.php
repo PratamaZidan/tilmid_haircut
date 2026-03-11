@@ -233,7 +233,7 @@
         <div class="price-modal__backdrop" id="closePricePoster"></div>
         <div class="price-modal__content" role="dialog" aria-modal="true" aria-label="Poster Price List">
           <button class="price-modal__close" type="button" id="closePricePosterBtn">✕</button>
-          <img src="/images/Price.webp" alt="Tilmid Haircut Price List Poster">
+          <img src="/images/new_price.webp" alt="Tilmid Haircut Price List Poster">
         </div>
       </div>
     </section>
